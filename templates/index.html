@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kolorowanki KDP</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a href="#" class="brand" id="home-link">🖍️ Kolorowanki KDP</a>
+  <span id="provider-badge" class="badge"></span>
+</header>
+
+<main class="layout">
+  <aside class="sidebar">
+    <button class="btn primary wide" id="new-btn">+ Nowa kolorowanka</button>
+    <h3>Twoje projekty</h3>
+    <ul id="project-list" class="project-list"></ul>
+  </aside>
+
+  <section id="view-new" class="panel">
+    <h1>Nowa kolorowanka</h1>
+    <form id="new-form" autocomplete="off">
+      <div class="grid2">
+        <label>Format (rozmiar po przycięciu)
+          <select name="format" id="format"></select>
+          <small id="format-note"></small>
+        </label>
+        <label>Papier
+          <select name="paper" id="paper">
+            <option value="white">Biały (zalecany do kolorowanek)</option>
+            <option value="cream">Kremowy</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="grid2">
+        <label>Tytuł książki <small>(na rynek USA – najlepiej po angielsku)</small>
+          <input name="title" placeholder="np. Dinosaur Coloring Book for Kids Ages 4-8">
+        </label>
+        <label>Podtytuł
+          <input name="subtitle" placeholder="np. 30 Fun Pages of Prehistoric Adventures">
+        </label>
+      </div>
+      <div class="grid2">
+        <label>Autor / wydawca
+          <input name="author" placeholder="np. Happy Crayon Press">
+        </label>
+        <label>Grupa wiekowa (styl rysunku)
+          <select name="age" id="age"></select>
+        </label>
+      </div>
+
+      <label>Temat główny kolorowanki *
+        <input name="theme" required placeholder="np. dinozaury w wesołych sytuacjach">
+      </label>
+
+      <div class="grid2">
+        <label>Liczba obrazków *
+          <input type="number" name="count" id="count" required>
+          <small id="count-note"></small>
+        </label>
+        <label class="check">
+          <input type="checkbox" name="with_cover" id="with_cover" checked>
+          Generuj też okładkę (PDF z grzbietem i spadami)
+        </label>
+      </div>
+
+      <label>Opis na tylną okładkę <small>(opcjonalnie)</small>
+        <textarea name="description" rows="2" placeholder="Krótki tekst na tył okładki"></textarea>
+      </label>
+
+      <div class="scenes-head">
+        <h2>Sceny</h2>
+        <button type="button" class="btn small" id="paste-btn">Wklej listę scen</button>
+      </div>
+      <p class="hint">Krótki opis każdej sceny. Puste pole = scena wymyślona na podstawie tematu.</p>
+      <ol id="scenes" class="scenes"></ol>
+
+      <div class="specs" id="specs"></div>
+
+      <div class="actions">
+        <span class="error" id="form-error"></span>
+        <button class="btn primary" type="submit" id="create-btn">Generuj kolorowankę</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="view-project" class="panel hidden">
+    <div class="project-head">
+      <div>
+        <h1 id="p-title"></h1>
+        <p class="muted" id="p-meta"></p>
+      </div>
+      <div class="project-actions">
+        <button class="btn primary" id="build-btn">Zbuduj manuskrypt PDF</button>
+      </div>
+    </div>
+
+    <div class="progress"><div class="bar" id="p-bar"></div></div>
+    <p class="muted" id="p-progress"></p>
+
+    <div class="downloads" id="downloads"></div>
+    <div class="specs" id="p-specs"></div>
+
+    <h2>Okładka</h2>
+    <div id="cover-card"></div>
+
+    <h2>Strony do kolorowania</h2>
+    <div class="gallery" id="gallery"></div>
+  </section>
+</main>
+
+<dialog id="paste-dialog">
+  <form method="dialog">
+    <h3>Wklej sceny – jedna scena w linii</h3>
+    <textarea id="paste-text" rows="12"></textarea>
+    <label class="check"><input type="checkbox" id="paste-count" checked> Ustaw liczbę obrazków wg liczby linii</label>
+    <div class="actions">
+      <button class="btn" value="cancel">Anuluj</button>
+      <button class="btn primary" value="ok" id="paste-ok">Wstaw</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
